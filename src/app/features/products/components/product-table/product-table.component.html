@@ -1,0 +1,42 @@
+<div class="table-wrapper">
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th scope="col">Logo</th>
+        <th scope="col">Nombre del producto</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Fecha liberacion</th>
+        <th scope="col">Fecha revision</th>
+        <th scope="col" class="product-table__actions">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products; trackBy: trackByProductId">
+        <td>
+          <img
+            class="product-table__logo"
+            [src]="product.logo"
+            [alt]="'Logo de ' + product.name"
+            loading="lazy"
+          />
+        </td>
+        <td>
+          <strong>{{ product.name }}</strong>
+          <span class="product-table__id">{{ product.id }}</span>
+        </td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.date_release }}</td>
+        <td>{{ product.date_revision }}</td>
+        <td class="product-table__actions">
+          <button
+            class="product-table__button"
+            type="button"
+            (click)="editProduct.emit(product.id)"
+          >
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,24 @@
+<section class="form-page">
+  <header class="form-page__header">
+    <button class="form-page__back" type="button" (click)="goBack()">
+      Volver
+    </button>
+  </header>
+
+  <app-loading-indicator
+    *ngIf="isLoading"
+    message="Cargando producto..."
+  ></app-loading-indicator>
+
+  <app-error-message *ngIf="!isLoading" [message]="loadError"></app-error-message>
+
+  <app-product-form
+    *ngIf="!isLoading && !loadError"
+    [form]="form"
+    [mode]="mode"
+    [isSaving]="isSaving"
+    [submitError]="submitError"
+    (save)="save()"
+    (cancel)="resetForm()"
+  ></app-product-form>
+</section>

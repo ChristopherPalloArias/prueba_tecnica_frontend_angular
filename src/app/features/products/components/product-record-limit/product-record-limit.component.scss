@@ -1,0 +1,28 @@
+.record-limit {
+  align-items: center;
+  color: #3f4756;
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.record-limit__label {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.record-limit__select {
+  background: #fff;
+  border: 1px solid #cfd7e6;
+  border-radius: 4px;
+  color: #202938;
+  font: inherit;
+  height: 2.5rem;
+  min-width: 4.5rem;
+  padding: 0 0.75rem;
+}
+
+.record-limit__select:focus {
+  border-color: #2554d8;
+  box-shadow: 0 0 0 3px rgba(37, 84, 216, 0.14);
+  outline: none;
+}

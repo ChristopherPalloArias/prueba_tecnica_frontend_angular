@@ -1,0 +1,12 @@
+<label class="record-limit">
+  <span class="record-limit__label">Mostrar</span>
+  <select
+    class="record-limit__select"
+    [value]="selected"
+    (change)="onLimitChange($any($event.target).value)"
+  >
+    <option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </option>
+  </select>
+</label>

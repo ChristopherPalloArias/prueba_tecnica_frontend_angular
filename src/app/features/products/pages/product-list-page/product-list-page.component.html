@@ -1,0 +1,55 @@
+<section class="products-page">
+  <header class="products-page__header">
+    <div>
+      <p class="products-page__eyebrow">Banco</p>
+      <h1>Productos financieros</h1>
+    </div>
+  </header>
+
+  <section class="products-page__panel" aria-label="Listado de productos">
+    <div class="products-page__toolbar">
+      <app-product-search
+        [value]="searchTerm"
+        (valueChange)="onSearchChange($event)"
+      ></app-product-search>
+
+      <button class="products-page__add-button" type="button" (click)="goToCreate()">
+        Agregar
+      </button>
+    </div>
+
+    <app-error-message [message]="errorMessage"></app-error-message>
+
+    <app-loading-indicator
+      *ngIf="isLoading"
+      message="Cargando productos..."
+    ></app-loading-indicator>
+
+    <ng-container *ngIf="!isLoading && !errorMessage">
+      <div *ngIf="products.length === 0" class="empty-state">
+        <h2>No hay productos registrados</h2>
+        <p>Agrega el primer producto financiero para comenzar.</p>
+      </div>
+
+      <div *ngIf="products.length > 0 && filteredProducts.length === 0" class="empty-state">
+        <h2>No se encontraron resultados</h2>
+        <p>Intenta con otro nombre, descripcion o identificador.</p>
+      </div>
+
+      <ng-container *ngIf="visibleProducts.length > 0">
+        <app-product-table
+          [products]="visibleProducts"
+          (editProduct)="goToEdit($event)"
+        ></app-product-table>
+
+        <footer class="products-page__footer">
+          <strong>{{ totalLabel }}</strong>
+          <app-product-record-limit
+            [selected]="recordLimit"
+            (selectedChange)="onLimitChange($event)"
+          ></app-product-record-limit>
+        </footer>
+      </ng-container>
+    </ng-container>
+  </section>
+</section>

@@ -1,0 +1,114 @@
+<form class="product-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <header class="product-form__header">
+    <h1>{{ title }}</h1>
+  </header>
+
+  <app-error-message [message]="submitError"></app-error-message>
+
+  <div class="product-form__grid">
+    <label class="field">
+      <span class="field__label">ID</span>
+      <input
+        class="field__control"
+        formControlName="id"
+        type="text"
+        autocomplete="off"
+        [readonly]="mode === 'edit'"
+        [class.field__control--invalid]="shouldShowError('id')"
+      />
+      <span *ngIf="control('id')?.pending" class="field__hint">
+        Verificando disponibilidad...
+      </span>
+      <span *ngIf="shouldShowError('id')" class="field__error">
+        {{ errorMessage('id') }}
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Nombre</span>
+      <input
+        class="field__control"
+        formControlName="name"
+        type="text"
+        [class.field__control--invalid]="shouldShowError('name')"
+      />
+      <span *ngIf="shouldShowError('name')" class="field__error">
+        {{ errorMessage('name') }}
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Descripcion</span>
+      <textarea
+        class="field__control field__control--textarea"
+        formControlName="description"
+        rows="4"
+        [class.field__control--invalid]="shouldShowError('description')"
+      ></textarea>
+      <span *ngIf="shouldShowError('description')" class="field__error">
+        {{ errorMessage('description') }}
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Logo</span>
+      <input
+        class="field__control"
+        formControlName="logo"
+        type="url"
+        [class.field__control--invalid]="shouldShowError('logo')"
+      />
+      <span *ngIf="shouldShowError('logo')" class="field__error">
+        {{ errorMessage('logo') }}
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Fecha Liberacion</span>
+      <input
+        class="field__control"
+        formControlName="date_release"
+        type="date"
+        [class.field__control--invalid]="shouldShowError('date_release')"
+      />
+      <span *ngIf="shouldShowError('date_release')" class="field__error">
+        {{ errorMessage('date_release') }}
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Fecha Revision</span>
+      <input
+        class="field__control"
+        formControlName="date_revision"
+        type="date"
+        readonly
+        [class.field__control--invalid]="shouldShowRevisionMismatch()"
+      />
+      <span *ngIf="shouldShowError('date_revision')" class="field__error">
+        {{ errorMessage('date_revision') }}
+      </span>
+      <span *ngIf="shouldShowRevisionMismatch()" class="field__error">
+        La fecha de revision debe ser exactamente un anio posterior.
+      </span>
+    </label>
+  </div>
+
+  <footer class="product-form__actions">
+    <button
+      class="product-form__button product-form__button--secondary"
+      type="button"
+      (click)="cancel.emit()"
+      [disabled]="isSaving"
+    >
+      Reiniciar
+    </button>
+    <button
+      class="product-form__button product-form__button--primary"
+      type="submit"
+      [disabled]="form.invalid || form.pending || isSaving"
+    >
+      {{ isSaving ? 'Guardando...' : submitLabel }}
+    </button>
+  </footer>
+</form>

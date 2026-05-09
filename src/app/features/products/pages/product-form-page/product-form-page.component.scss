@@ -1,0 +1,30 @@
+.form-page {
+  background: #f4f6fa;
+  min-height: 100vh;
+  padding: 2.5rem;
+}
+
+.form-page__header {
+  margin: 0 auto 1rem;
+  max-width: 58rem;
+}
+
+.form-page__back {
+  background: transparent;
+  border: 0;
+  color: #2554d8;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  padding: 0.5rem 0;
+}
+
+.form-page__back:hover {
+  color: #183a9b;
+}
+
+@media (max-width: 720px) {
+  .form-page {
+    padding: 1rem;
+  }
+}

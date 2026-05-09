@@ -1,0 +1,10 @@
+<label class="search">
+  <span class="search__label">Buscar</span>
+  <input
+    class="search__input"
+    type="search"
+    [value]="value"
+    placeholder="Buscar por nombre, descripcion o ID"
+    (input)="onSearch($any($event.target).value)"
+  />
+</label>

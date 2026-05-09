@@ -1,0 +1,30 @@
+.search {
+  display: block;
+  max-width: 22rem;
+  width: 100%;
+}
+
+.search__label {
+  color: #3f4756;
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.search__input {
+  background: #fff;
+  border: 1px solid #cfd7e6;
+  border-radius: 4px;
+  color: #202938;
+  font: inherit;
+  height: 2.75rem;
+  padding: 0 0.85rem;
+  width: 100%;
+}
+
+.search__input:focus {
+  border-color: #2554d8;
+  box-shadow: 0 0 0 3px rgba(37, 84, 216, 0.14);
+  outline: none;
+}
