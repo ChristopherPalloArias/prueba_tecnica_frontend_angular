@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-table',
   templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.scss']
+  styleUrls: ['./product-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductTableComponent {
   @Input() products: Product[] = [];

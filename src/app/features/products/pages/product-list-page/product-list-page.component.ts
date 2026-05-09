@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 import { ApiError } from '../../../../core/models/api-error.model';
 import { ProductRecordLimit } from '../../components/product-record-limit/product-record-limit.component';
@@ -11,12 +12,14 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './product-list-page.component.html',
   styleUrls: ['./product-list-page.component.scss']
 })
-export class ProductListPageComponent implements OnInit {
+export class ProductListPageComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   searchTerm = '';
   recordLimit: ProductRecordLimit = 5;
   isLoading = false;
   errorMessage = '';
+
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly productService: ProductService,
@@ -25,6 +28,11 @@ export class ProductListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   get filteredProducts(): Product[] {
@@ -56,7 +64,7 @@ export class ProductListPageComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.productService.getProducts().subscribe({
+    this.productService.getProducts().pipe(takeUntil(this.destroy$)).subscribe({
       next: (products) => {
         this.products = products;
         this.isLoading = false;

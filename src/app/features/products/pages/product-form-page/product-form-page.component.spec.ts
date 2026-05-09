@@ -162,6 +162,59 @@ describe('ProductFormPageComponent', () => {
     expect(component.submitError).toBe('No se pudo crear');
   });
 
+  it('should not save when form is invalid', async () => {
+    await configureRoute();
+    fixture.detectChanges();
+    disableIdAsyncValidator();
+
+    component.save();
+
+    expect(productService.createProduct).not.toHaveBeenCalled();
+  });
+
+  it('should reset form to empty values in create mode', async () => {
+    await configureRoute();
+    fixture.detectChanges();
+    disableIdAsyncValidator();
+
+    component.form.patchValue({ name: 'Changed' });
+    component.resetForm();
+
+    expect(component.form.get('name')?.value).toBe('');
+  });
+
+  it('should reload product when resetting in edit mode', async () => {
+    await configureRoute('uno');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    component.form.patchValue({ name: 'Changed' });
+    component.resetForm();
+
+    expect(productService.getProductById).toHaveBeenCalledTimes(2);
+  });
+
+  it('should navigate back to product list', async () => {
+    await configureRoute();
+    const navigateSpy = spyOn(router, 'navigate').and.resolveTo(true);
+    fixture.detectChanges();
+
+    component.goBack();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/products']);
+  });
+
+  it('should set loadError when product load fails in edit mode', async () => {
+    await configureRoute('uno');
+    productService.getProductById.and.returnValue(
+      throwError(() => ({ message: 'Producto no encontrado' }))
+    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.loadError).toBe('Producto no encontrado');
+  });
+
   function disableIdAsyncValidator(): void {
     const idControl = component.form.get('id');
     idControl?.clearAsyncValidators();

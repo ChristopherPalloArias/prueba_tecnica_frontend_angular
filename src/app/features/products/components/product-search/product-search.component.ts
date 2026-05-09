@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.component.html',
-  styleUrls: ['./product-search.component.scss']
+  styleUrls: ['./product-search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSearchComponent {
   @Input() value = '';

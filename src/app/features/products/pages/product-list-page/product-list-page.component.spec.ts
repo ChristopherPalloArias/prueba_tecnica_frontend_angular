@@ -101,4 +101,38 @@ describe('ProductListPageComponent', () => {
     component.goToEdit('uno');
     expect(navigateSpy).toHaveBeenCalledWith(['/products', 'uno', 'edit']);
   });
+
+  it('should show empty state when no products are loaded', () => {
+    productService.getProducts.and.returnValue(of([]));
+    fixture = TestBed.createComponent(ProductListPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(component.products.length).toBe(0);
+    expect(component.visibleProducts.length).toBe(0);
+  });
+
+  it('should return singular label for one result', () => {
+    productService.getProducts.and.returnValue(of([products[0]]));
+    fixture = TestBed.createComponent(ProductListPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(component.totalLabel).toBe('1 Resultado');
+  });
+
+  it('should return plural label for multiple results', () => {
+    fixture.detectChanges();
+
+    expect(component.totalLabel).toBe('2 Resultados');
+  });
+
+  it('should return empty filtered list when search matches nothing', () => {
+    fixture.detectChanges();
+
+    component.onSearchChange('nonexistent-term');
+
+    expect(component.filteredProducts.length).toBe(0);
+    expect(component.visibleProducts.length).toBe(0);
+  });
 });

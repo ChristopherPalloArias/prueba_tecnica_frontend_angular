@@ -68,7 +68,7 @@ export class ProductFormPageComponent implements OnInit, OnDestroy {
         ? this.productService.updateProduct(this.productId, payload)
         : this.productService.createProduct(payload);
 
-    request$.subscribe({
+    request$.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.isSaving = false;
         void this.router.navigate(['/products']);
@@ -149,7 +149,7 @@ export class ProductFormPageComponent implements OnInit, OnDestroy {
     this.loadError = '';
     this.submitError = '';
 
-    this.productService.getProductById(id).subscribe({
+    this.productService.getProductById(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (product) => {
         this.form.reset({
           id: product.id,

@@ -1,14 +1,14 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { HttpHeadersInterceptor } from './interceptors/http-headers.interceptor';
 
 @NgModule({
   imports: [HttpClientModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
+      useClass: HttpHeadersInterceptor,
       multi: true
     }
   ]

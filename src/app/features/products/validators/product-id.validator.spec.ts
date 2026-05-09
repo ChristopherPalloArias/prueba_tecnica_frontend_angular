@@ -56,6 +56,38 @@ describe('productIdAvailableValidator', () => {
     });
   });
 
+  it('should skip validation when value is empty', (done) => {
+    const control = new FormControl('');
+
+    runValidator(control).subscribe((result) => {
+      expect(result).toBeNull();
+      expect(productService.verifyProductId).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should skip validation when value exceeds max length', (done) => {
+    const control = new FormControl('12345678901');
+
+    runValidator(control).subscribe((result) => {
+      expect(result).toBeNull();
+      expect(productService.verifyProductId).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should skip validation when value equals currentId', (done) => {
+    productService.verifyProductId.and.returnValue(of(true));
+    const control = new FormControl('abc');
+    const result$ = productIdAvailableValidator(productService, 'abc')(control) as Observable<ValidationErrors | null>;
+
+    result$.subscribe((result) => {
+      expect(result).toBeNull();
+      expect(productService.verifyProductId).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
   function runValidator(
     control: FormControl<string | null>
   ): Observable<ValidationErrors | null> {

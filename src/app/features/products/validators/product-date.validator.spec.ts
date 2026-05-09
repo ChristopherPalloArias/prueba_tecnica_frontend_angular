@@ -45,4 +45,39 @@ describe('product date validators', () => {
       revisionDateMismatch: true
     });
   });
+
+  it('should return empty string when addOneYear receives empty input', () => {
+    expect(addOneYear('')).toBe('');
+  });
+
+  it('should return empty string when addOneYear receives invalid input', () => {
+    expect(addOneYear('not-a-date')).toBe('');
+  });
+
+  it('should return empty string when addOneYear receives incomplete date', () => {
+    expect(addOneYear('2026')).toBe('');
+  });
+
+  it('should return null from release validator when control has no value', () => {
+    const control = new FormControl('');
+    expect(releaseDateValidator()(control)).toBeNull();
+  });
+
+  it('should return null from revision validator when release is empty', () => {
+    const form = new FormGroup({
+      date_release: new FormControl(''),
+      date_revision: new FormControl('2027-05-09')
+    });
+
+    expect(revisionDateMatchesReleaseValidator()(form)).toBeNull();
+  });
+
+  it('should return null from revision validator when revision is empty', () => {
+    const form = new FormGroup({
+      date_release: new FormControl('2026-05-09'),
+      date_revision: new FormControl('')
+    });
+
+    expect(revisionDateMatchesReleaseValidator()(form)).toBeNull();
+  });
 });
